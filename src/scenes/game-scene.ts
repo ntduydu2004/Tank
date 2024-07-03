@@ -124,6 +124,7 @@ export class GameScene extends Phaser.Scene {
         }, this)
         if (this.enemies.getChildren().length == 0 && !this.isWinning) {
             this.isWinning = true
+            SoundManager.getInstance().playVictoryMusic()
             this.time.delayedCall(1000, () => {
                 DataManager.getInstance().saveScore()
                 DataManager.getInstance().setState(State.WIN)

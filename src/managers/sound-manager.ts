@@ -6,6 +6,7 @@ export class SoundManager {
     private shootSound: Phaser.Sound.HTML5AudioSound
     private hitSound: Phaser.Sound.HTML5AudioSound
     private ingameMusic: Phaser.Sound.HTML5AudioSound
+    private victoryMusic: Phaser.Sound.HTML5AudioSound
     private menuMusic: Phaser.Sound.HTML5AudioSound
     private enemyShootSound: Phaser.Sound.HTML5AudioSound
     private buttonClickSound: Phaser.Sound.HTML5AudioSound
@@ -31,13 +32,23 @@ export class SoundManager {
     }
     public initMenuScene(scene: Scene): void {
         if (this.menuMusic === undefined) this.menuMusic = scene.sound.add('menu_music') as Phaser.Sound.HTML5AudioSound
+        this.victoryMusic = scene.sound.add('victory_music') as Phaser.Sound.HTML5AudioSound
         this.buttonClickSound = scene.sound.add('button_click_sound') as Phaser.Sound.HTML5AudioSound
         this.buttonHoverSound = scene.sound.add('button_hover_sound') as Phaser.Sound.HTML5AudioSound
     }
-    public playIngameMusic(): void {
+    public stopAllMusic(): void {
         if (!this.menuMusic.isPaused) {
             this.menuMusic.pause()
         }
+        if (!this.victoryMusic.isPaused) {
+            this.victoryMusic.pause()
+        }
+        if (!this.ingameMusic.isPaused) {
+            this.ingameMusic.pause()
+        }
+    }
+    public playIngameMusic(): void {
+        this.stopAllMusic()
         this.ingameMusic.play({
             loop: true,
             volume: DataManager.getInstance().getMusic()
@@ -45,15 +56,19 @@ export class SoundManager {
         
     }
     public playMenuMusic() {
-        if (!this.ingameMusic.isPaused) {
-            this.ingameMusic.pause()
-        }
+        this.stopAllMusic()
         this.menuMusic.play({
             loop: true,
             seek: 23,
             volume: DataManager.getInstance().getMusic()
         })
         
+    }
+    public playVictoryMusic() {
+        this.stopAllMusic()
+        this.victoryMusic.play({
+            volume: DataManager.getInstance().getMusic()
+        })
     }
     public setSoundVolume(soundVolume: number) {
         this.shootSound.setVolume(soundVolume)
@@ -84,6 +99,7 @@ export class SoundManager {
     public setMusicVolume(musicVolume: number) {
         this.ingameMusic.setVolume(musicVolume)
         this.menuMusic.setVolume(musicVolume)
+        this.victoryMusic.setVolume(musicVolume)
     }
     public setHudVolume(hudVolume: number) {
         this.buttonClickSound.setVolume(hudVolume)
