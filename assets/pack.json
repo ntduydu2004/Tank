@@ -173,6 +173,11 @@
         "url": "./assets/hud/white.png"
       },
       {
+        "type": "image",
+        "key": "victory_symbol",
+        "url": "./assets/hud/victory_symbol.png"
+      },
+      {
         "type": "atlas",
         "key": "flares",
         "textureURL": "./assets/hud/flares.png",
@@ -197,6 +202,11 @@
         "type": "audio",
         "key": "enemy_shoot_sound",
         "url": "./assets/sounds/enemy_shoot_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "victory_music",
+        "url": "./assets/sounds/victory_music.mp3"
       },
       {
         "type": "audio",
