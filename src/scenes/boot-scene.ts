@@ -1,4 +1,4 @@
-import { ScreenManager } from "../managers/screen-manager"
+import { ScreenManager } from '../managers/screen-manager'
 
 export class BootScene extends Phaser.Scene {
     private loadingBar: Phaser.GameObjects.Graphics
@@ -45,13 +45,9 @@ export class BootScene extends Phaser.Scene {
         this.load.pack('preload', './assets/pack.json', 'preload')
     }
 
-
     create(): void {
         let screenManager = new ScreenManager()
-        this.scene
-            .start('GameScene', screenManager)
-            .start('MenuScene', screenManager)
-        
+        this.scene.start('GameScene', screenManager).start('MenuScene', screenManager)
     }
 
     private createLoadingGraphics(): void {

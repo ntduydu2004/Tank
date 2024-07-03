@@ -1,9 +1,9 @@
-import { Scene, Sound } from "phaser";
-import { Screen } from "./screen";
-import { Panel } from "../../ui-objects/panel";
-import { Button } from "../../ui-objects/button";
-import { DataManager, State } from "../../managers/data-manager";
-import { SoundManager } from "../../managers/sound-manager";
+import { Scene, Sound } from 'phaser'
+import { Screen } from './screen'
+import { Panel } from '../../ui-objects/panel'
+import { Button } from '../../ui-objects/button'
+import { DataManager, State } from '../../managers/data-manager'
+import { SoundManager } from '../../managers/sound-manager'
 
 export class EndGameScreen extends Screen {
     private background: Phaser.GameObjects.Rectangle
@@ -45,28 +45,26 @@ export class EndGameScreen extends Screen {
                         to: this.dataManager.getScore(),
                         duration: 2000,
                         ease: 'linear',
-                        onUpdate: tween =>
-                        {
-                            const value = Math.round(tween.getValue());
-                            this.scoreText.setText(`Score: ${value}`);
-                        }
+                        onUpdate: (tween) => {
+                            const value = Math.round(tween.getValue())
+                            this.scoreText.setText(`Score: ${value}`)
+                        },
                     })
                     this.scene.tweens.addCounter({
                         from: 0,
                         to: this.dataManager.getHighScore(),
                         duration: 2000,
                         ease: 'linear',
-                        onUpdate: tween =>
-                        {
-                            const value = Math.round(tween.getValue());
-                            this.highScoreText.setText(`High score: ${value}`);
-                        }
+                        onUpdate: (tween) => {
+                            const value = Math.round(tween.getValue())
+                            this.highScoreText.setText(`High score: ${value}`)
+                        },
                     })
                     // this.dataManager.reset()
-                }
+                },
             })
-        }
-        else {
+        } else {
+            this.panel.y = this.scene.sys.canvas.height / 2 + 100
             this.panel.setAlpha(0)
             this.scene.tweens.chain({
                 targets: this.victorySymbol,
@@ -84,7 +82,7 @@ export class EndGameScreen extends Screen {
                         ease: 'power3',
                         onComplete: () => {
                             this.particles.start()
-                        }
+                        },
                     },
                     {
                         targets: this.panel,
@@ -97,41 +95,35 @@ export class EndGameScreen extends Screen {
                                 to: this.dataManager.getScore(),
                                 duration: 2000,
                                 ease: 'linear',
-                                onUpdate: tween =>
-                                {
-                                    const value = Math.round(tween.getValue());
-                                    this.scoreText.setText(`Score: ${value}`);
-                                }
+                                onUpdate: (tween) => {
+                                    const value = Math.round(tween.getValue())
+                                    this.scoreText.setText(`Score: ${value}`)
+                                },
                             })
                             this.scene.tweens.addCounter({
                                 from: 0,
                                 to: this.dataManager.getHighScore(),
                                 duration: 2000,
                                 ease: 'linear',
-                                onUpdate: tween =>
-                                {
-                                    const value = Math.round(tween.getValue());
-                                    this.highScoreText.setText(`High score: ${value}`);
-                                }
+                                onUpdate: (tween) => {
+                                    const value = Math.round(tween.getValue())
+                                    this.highScoreText.setText(`High score: ${value}`)
+                                },
                             })
-                        }
+                        },
                     },
-                    
-                ]
-                
+                ],
             })
 
             this.scene.add.tween({
                 targets: [this.background, this.settingsButton],
                 scale: 1,
                 ease: 'back.out',
-                duration: 300, 
+                duration: 300,
             })
         }
-        
     }
-    public update(time: number, delta: number): void {
-    }
+    public update(time: number, delta: number): void {}
     private createPanel(): void {
         this.restartButton = new Button({
             scene: this.scene,
@@ -150,11 +142,11 @@ export class EndGameScreen extends Screen {
                         SoundManager.getInstance().playIngameMusic()
                         this.manager.startGame()
                         this.manager.transitionToLastScreen()
-                    }
+                    },
                 })
-            }
+            },
         })
-    
+
         this.settingsButton = new Button({
             scene: this.scene,
             x: 50,
@@ -163,7 +155,7 @@ export class EndGameScreen extends Screen {
             hoverTexture: 'settings_hover_button',
             onButtonClicked: () => {
                 this.manager.transitionToSettingsScreen()
-            } 
+            },
         })
         this.homeButton = new Button({
             scene: this.scene,
@@ -175,39 +167,56 @@ export class EndGameScreen extends Screen {
                 this.scene.tweens.killAll()
                 SoundManager.getInstance().playMenuMusic()
                 this.manager.transitionToMainMenuScreen()
-            }
+            },
         })
         this.panel = new Panel({
             scene: this.scene,
             x: this.scene.sys.canvas.width / 2,
-            y: this.scene.sys.canvas.height / 2 + 100,
+            y: this.scene.sys.canvas.height / 2,
             texture: 'big_panel',
-            buttons: [
-                this.restartButton,
-                this.homeButton
-            ]
+            buttons: [this.restartButton, this.homeButton],
         })
         this.panel.addText({
             x: 0,
             y: -150,
-            text: this.dataManager.getState() == State.PAUSE_LOSE ? 'DEFEAT': 'VICTORY',
+            text: this.dataManager.getState() == State.PAUSE_LOSE ? 'DEFEAT' : 'VICTORY',
             size: 40,
-            tint: 0xffffff
+            tint: 0xffffff,
         })
-        this.scoreText = this.scene.add.text(- 100, - 80, 'Score: 0', {color: 'white', fontSize: '30px', fontStyle: 'bold'})
-        this.highScoreText = this.scene.add.text(- 190, - 20, 'High score: 0', {color: 'white', fontSize: '30px', fontStyle: 'bold'})
+        this.scoreText = this.scene.add.text(-100, -80, 'Score: 0', {
+            color: 'white',
+            fontSize: '30px',
+            fontStyle: 'bold',
+        })
+        this.highScoreText = this.scene.add.text(-190, -20, 'High score: 0', {
+            color: 'white',
+            fontSize: '30px',
+            fontStyle: 'bold',
+        })
         this.panel.addTextObject(this.scoreText)
         this.panel.addTextObject(this.highScoreText)
         this.add(this.panel)
         this.add(this.settingsButton)
     }
     private createBackground(): void {
-        this.background = this.scene.add.rectangle(this.scene.sys.canvas.width / 2, this.scene.sys.canvas.height / 2, this.scene.sys.canvas.width, this.scene.sys.canvas.height, 0x000000).setAlpha(0.5)
-        this.victorySymbol = this.scene.add.image(this.scene.sys.canvas.width / 2, this.scene.sys.canvas.height / 2, 'victory_symbol')
+        this.background = this.scene.add
+            .rectangle(
+                this.scene.sys.canvas.width / 2,
+                this.scene.sys.canvas.height / 2,
+                this.scene.sys.canvas.width,
+                this.scene.sys.canvas.height,
+                0x000000
+            )
+            .setAlpha(0.5)
+        this.victorySymbol = this.scene.add.image(
+            this.scene.sys.canvas.width / 2,
+            this.scene.sys.canvas.height / 2,
+            'victory_symbol'
+        )
         this.particles = this.scene.add.particles(this.scene.sys.canvas.width / 2, 200, 'flares', {
             frame: ['white'],
             color: [0xfe5500, 0xfe0f00],
-            x: {min: -50, max: 50},
+            x: { min: -50, max: 50 },
             colorEase: 'quad.out',
             lifespan: 2500,
             angle: { min: -110, max: -70 },
@@ -220,6 +229,5 @@ export class EndGameScreen extends Screen {
         this.add(this.background)
         this.add(this.particles)
         this.add(this.victorySymbol)
-        
     }
 }

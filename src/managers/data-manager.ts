@@ -1,13 +1,13 @@
-import { SoundManager } from "./sound-manager"
+import { SoundManager } from './sound-manager'
 
 export enum State {
     NONE,
     WIN,
     PAUSE_WIN,
     LOSE,
-    PAUSE_LOSE
+    PAUSE_LOSE,
 }
-export class DataManager{
+export class DataManager {
     private score: number
     private highScore: number
     private state: number
@@ -21,7 +21,7 @@ export class DataManager{
     private musicVolume: number
     private hudVolume: number
     private loaded: boolean
-    
+
     private static instance: DataManager
 
     private constructor() {
@@ -39,33 +39,28 @@ export class DataManager{
         this.loaded = true
         let item = localStorage.getItem('soundVolume')
         if (!item) {
-            this.soundVolume = 0.78
-        }
-        else {
+            this.soundVolume = 0.08
+        } else {
             this.soundVolume = JSON.parse(item)
         }
-        
+
         item = localStorage.getItem('musicVolume')
         if (!item) {
-            this.musicVolume = 0.78
-        }
-        else {
+            this.musicVolume = 0.05
+        } else {
             this.musicVolume = JSON.parse(item)
         }
         item = localStorage.getItem('hudVolume')
         if (!item) {
-            this.hudVolume = 0.78
-        }
-        else {
+            this.hudVolume = 0.45
+        } else {
             this.hudVolume = JSON.parse(item)
         }
-
 
         item = localStorage.getItem('highScore')
         if (!item) {
             this.highScore = 0
-        }
-        else {
+        } else {
             this.highScore = JSON.parse(item)
         }
         this.reset()
@@ -86,7 +81,7 @@ export class DataManager{
         this.healthLeft = health
     }
     public addStreak() {
-        this.killStreak ++
+        this.killStreak++
     }
     public saveScore() {
         console.log(this.killStreak, this.healthLeft)
@@ -110,7 +105,7 @@ export class DataManager{
     public getSound() {
         return this.soundVolume
     }
-    
+
     public setMusic(musicVolume: number) {
         this.musicVolume = musicVolume
         SoundManager.getInstance().setMusicVolume(musicVolume)

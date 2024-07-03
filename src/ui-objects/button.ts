@@ -1,7 +1,7 @@
-import { Scene } from "phaser"
-import { IButtonConstructor } from "../interfaces/button.interface"
-import { ITextConstructor } from "../interfaces/text.interface"
-import { SoundManager } from "../managers/sound-manager"
+import { Scene } from 'phaser'
+import { IButtonConstructor } from '../interfaces/button.interface'
+import { ITextConstructor } from '../interfaces/text.interface'
+import { SoundManager } from '../managers/sound-manager'
 
 export class Button extends Phaser.GameObjects.Container {
     private background: Phaser.GameObjects.Image
@@ -37,7 +37,10 @@ export class Button extends Phaser.GameObjects.Container {
         this.add(this.background)
     }
     public addText(params: ITextConstructor) {
-        this.text = this.scene.add.bitmapText(params.x, params.y, 'font', params.text, params.size).setOrigin(0.5).setTint(params.tint)
+        this.text = this.scene.add
+            .bitmapText(params.x, params.y, 'font', params.text, params.size)
+            .setOrigin(0.5)
+            .setTint(params.tint)
         this.add(this.text)
     }
     public setText(text: string) {

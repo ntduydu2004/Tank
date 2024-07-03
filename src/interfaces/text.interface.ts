@@ -2,6 +2,6 @@ export interface ITextConstructor {
     x: number
     y: number
     text: string
-    tint: number,
+    tint: number
     size: number
 }

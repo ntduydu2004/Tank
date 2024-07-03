@@ -1,10 +1,10 @@
-import { Scene } from "phaser";
-import { MainMenuScreen } from "../objects/screens/main-menu-screen";
-import { Screen } from "../objects/screens/screen";
-import { MainGameScreen } from "../objects/screens/main-game-screen";
-import { EndGameScreen } from "../objects/screens/end-game-screen";
-import { SettingsScreen } from "../objects/screens/settings-screen";
-import { PauseGameScreen } from "../objects/screens/pause-game-screen";
+import { Scene } from 'phaser'
+import { MainMenuScreen } from '../objects/screens/main-menu-screen'
+import { Screen } from '../objects/screens/screen'
+import { MainGameScreen } from '../objects/screens/main-game-screen'
+import { EndGameScreen } from '../objects/screens/end-game-screen'
+import { SettingsScreen } from '../objects/screens/settings-screen'
+import { PauseGameScreen } from '../objects/screens/pause-game-screen'
 
 export class ScreenManager {
     private currentScreen: Screen
@@ -58,9 +58,8 @@ export class ScreenManager {
     public transitionToMainMenuScreen() {
         if (this.screenStack.length == 0) {
             this.transitionTo(new MainMenuScreen(this.menuScene))
-        }
-        else {
-            while(this.screenStack.length > 1) {
+        } else {
+            while (this.screenStack.length > 1) {
                 let screen = this.screenStack.pop()!
                 screen.destroy()
             }

@@ -1,6 +1,6 @@
-import { IPanelConstructor } from "../interfaces/panel.interface";
-import { ITextConstructor } from "../interfaces/text.interface";
-import { Button } from "./button";
+import { IPanelConstructor } from '../interfaces/panel.interface'
+import { ITextConstructor } from '../interfaces/text.interface'
+import { Button } from './button'
 
 export class Panel extends Phaser.GameObjects.Container {
     private buttons: Button[]
@@ -18,7 +18,10 @@ export class Panel extends Phaser.GameObjects.Container {
     }
 
     public addText(params: ITextConstructor) {
-        const text = this.scene.add.bitmapText(params.x, params.y, 'font', params.text, params.size).setOrigin(0.5).setTint(params.tint)
+        const text = this.scene.add
+            .bitmapText(params.x, params.y, 'font', params.text, params.size)
+            .setOrigin(0.5)
+            .setTint(params.tint)
         this.add(text)
     }
 

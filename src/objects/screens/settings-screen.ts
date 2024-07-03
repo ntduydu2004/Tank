@@ -1,9 +1,9 @@
-import { Scene } from "phaser";
-import { Screen } from "./screen";
-import { Button } from "../../ui-objects/button";
-import { DataManager } from "../../managers/data-manager";
-import { Slider } from "../../ui-objects/slider";
-import { ISliderConstructor } from "../../interfaces/slider.interface";
+import { Scene } from 'phaser'
+import { Screen } from './screen'
+import { Button } from '../../ui-objects/button'
+import { DataManager } from '../../managers/data-manager'
+import { Slider } from '../../ui-objects/slider'
+import { ISliderConstructor } from '../../interfaces/slider.interface'
 
 export class SettingsScreen extends Screen {
     private background: Phaser.GameObjects.Rectangle
@@ -23,9 +23,7 @@ export class SettingsScreen extends Screen {
         this.createButtons()
         this.createSliders()
     }
-    public update(time: number, delta: number): void {
-        
-    }
+    public update(time: number, delta: number): void {}
     private createSliders() {
         let params: ISliderConstructor = {
             scene: this.scene,
@@ -38,7 +36,7 @@ export class SettingsScreen extends Screen {
             onDragging: (pointer, dragX, dragY) => {
                 dragX = Phaser.Math.Clamp(dragX, 0, params.width)
                 this.dataManager.setSound(dragX / params.width)
-            }
+            },
         }
         this.soundSlider = new Slider(params)
         params = {
@@ -52,7 +50,7 @@ export class SettingsScreen extends Screen {
             onDragging: (pointer, dragX, dragY) => {
                 dragX = Phaser.Math.Clamp(dragX, 0, params.width)
                 this.dataManager.setMusic(dragX / params.width)
-            }
+            },
         }
         this.musicSlider = new Slider(params)
 
@@ -67,7 +65,7 @@ export class SettingsScreen extends Screen {
             onDragging: (pointer, dragX, dragY) => {
                 dragX = Phaser.Math.Clamp(dragX, 0, params.width)
                 this.dataManager.setHud(dragX / params.width)
-            }
+            },
         }
         this.hudSlider = new Slider(params)
         this.add(this.soundSlider)
@@ -83,12 +81,18 @@ export class SettingsScreen extends Screen {
             hoverTexture: 'back_hover_button',
             onButtonClicked: () => {
                 this.manager.transitionToLastScreen()
-            }
+            },
         }).setScale(0.7)
         this.add(this.backButton)
     }
     private createBackground() {
-        this.background = this.scene.add.rectangle(this.scene.sys.canvas.width / 2, this.scene.sys.canvas.height / 2, this.scene.sys.canvas.width, this.scene.sys.canvas.height, 0x323741)
+        this.background = this.scene.add.rectangle(
+            this.scene.sys.canvas.width / 2,
+            this.scene.sys.canvas.height / 2,
+            this.scene.sys.canvas.width,
+            this.scene.sys.canvas.height,
+            0x323741
+        )
         this.add(this.background)
     }
 }

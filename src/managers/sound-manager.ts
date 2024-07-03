@@ -1,5 +1,5 @@
-import { Scene, Sound } from "phaser";
-import { DataManager } from "./data-manager";
+import { Scene, Sound } from 'phaser'
+import { DataManager } from './data-manager'
 
 export class SoundManager {
     private static instance: SoundManager
@@ -13,9 +13,7 @@ export class SoundManager {
     private buttonHoverSound: Phaser.Sound.HTML5AudioSound
     private wallHitSound: Phaser.Sound.HTML5AudioSound
     private enemyHitSound: Phaser.Sound.HTML5AudioSound
-    private constructor() {
-
-    }
+    private constructor() {}
     public static getInstance(): SoundManager {
         if (!SoundManager.instance) {
             SoundManager.instance = new SoundManager()
@@ -31,10 +29,15 @@ export class SoundManager {
         this.enemyHitSound = scene.sound.add('enemy_hit_sound') as Phaser.Sound.HTML5AudioSound
     }
     public initMenuScene(scene: Scene): void {
-        if (this.menuMusic === undefined) this.menuMusic = scene.sound.add('menu_music') as Phaser.Sound.HTML5AudioSound
+        if (this.menuMusic === undefined)
+            this.menuMusic = scene.sound.add('menu_music') as Phaser.Sound.HTML5AudioSound
         this.victoryMusic = scene.sound.add('victory_music') as Phaser.Sound.HTML5AudioSound
-        this.buttonClickSound = scene.sound.add('button_click_sound') as Phaser.Sound.HTML5AudioSound
-        this.buttonHoverSound = scene.sound.add('button_hover_sound') as Phaser.Sound.HTML5AudioSound
+        this.buttonClickSound = scene.sound.add(
+            'button_click_sound'
+        ) as Phaser.Sound.HTML5AudioSound
+        this.buttonHoverSound = scene.sound.add(
+            'button_hover_sound'
+        ) as Phaser.Sound.HTML5AudioSound
     }
     public stopAllMusic(): void {
         if (!this.menuMusic.isPaused) {
@@ -51,23 +54,21 @@ export class SoundManager {
         this.stopAllMusic()
         this.ingameMusic.play({
             loop: true,
-            volume: DataManager.getInstance().getMusic()
+            volume: DataManager.getInstance().getMusic(),
         })
-        
     }
     public playMenuMusic() {
         this.stopAllMusic()
         this.menuMusic.play({
             loop: true,
             seek: 23,
-            volume: DataManager.getInstance().getMusic()
+            volume: DataManager.getInstance().getMusic(),
         })
-        
     }
     public playVictoryMusic() {
         this.stopAllMusic()
         this.victoryMusic.play({
-            volume: DataManager.getInstance().getMusic()
+            volume: DataManager.getInstance().getMusic(),
         })
     }
     public setSoundVolume(soundVolume: number) {
@@ -78,22 +79,22 @@ export class SoundManager {
     }
     public playWallHitSound() {
         this.wallHitSound.play({
-            seek: 0.1
+            seek: 0.1,
         })
     }
     public playEnemyHitSound() {
         this.enemyHitSound.play({
-            seek: 0.1
+            seek: 0.1,
         })
     }
     public playButtonClickSound() {
         this.buttonClickSound.play({
-            seek: 0.41
+            seek: 0.41,
         })
     }
     public playButtonHoverSound() {
         this.buttonHoverSound.play({
-            seek: 0.65
+            seek: 0.65,
         })
     }
     public setMusicVolume(musicVolume: number) {

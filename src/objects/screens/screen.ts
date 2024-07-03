@@ -1,7 +1,7 @@
-import { Scene } from "phaser";
-import { ScreenManager } from "../../managers/screen-manager";
+import { Scene } from 'phaser'
+import { ScreenManager } from '../../managers/screen-manager'
 
-export abstract class Screen extends Phaser.GameObjects.Container{
+export abstract class Screen extends Phaser.GameObjects.Container {
     protected manager: ScreenManager
     public constructor(scene: Scene) {
         super(scene, 0, 0)

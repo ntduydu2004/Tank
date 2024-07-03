@@ -1,3 +1,1 @@
-export class SettingsManager {
-    
-}
+export class SettingsManager {}

@@ -1,6 +1,6 @@
-import { DataManager } from "../managers/data-manager"
-import { ScreenManager } from "../managers/screen-manager"
-import { SoundManager } from "../managers/sound-manager"
+import { DataManager } from '../managers/data-manager'
+import { ScreenManager } from '../managers/screen-manager'
+import { SoundManager } from '../managers/sound-manager'
 
 export class MenuScene extends Phaser.Scene {
     public screenManager: ScreenManager

@@ -57,7 +57,7 @@ export class GameScene extends Phaser.Scene {
         })
 
         this.enemies = this.add.group({
-            classType: Enemy
+            classType: Enemy,
         })
         this.convertObjects()
         DataManager.getInstance().setEnemiesNumber(this.enemies.getChildren().length)
@@ -67,23 +67,11 @@ export class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.obstacles)
 
         // collider for bullets
-        this.physics.add.collider(
-            this.player.getBullets(),
-            this.layer,
-            this.bulletHitLayer
-        )
+        this.physics.add.collider(this.player.getBullets(), this.layer, this.bulletHitLayer)
 
-        this.physics.add.collider(
-            this.player.getBullets(),
-            this.obstacles,
-            this.bulletHitObstacles,
-        )
+        this.physics.add.collider(this.player.getBullets(), this.obstacles, this.bulletHitObstacles)
         this.enemies.getChildren().forEach((enemy: GameObjects.GameObject) => {
-            this.physics.add.overlap(
-                this.player.getBullets(),
-                enemy,
-                this.playerBulletHitEnemy
-            )
+            this.physics.add.overlap(this.player.getBullets(), enemy, this.playerBulletHitEnemy)
             this.physics.add.overlap(
                 (enemy as Enemy).getBullets(),
                 this.player,
@@ -95,15 +83,23 @@ export class GameScene extends Phaser.Scene {
                 this.obstacles,
                 this.bulletHitObstacles
             )
-            this.physics.add.collider((enemy as Enemy).getBullets(), this.layer, this.bulletHitLayer)
+            this.physics.add.collider(
+                (enemy as Enemy).getBullets(),
+                this.layer,
+                this.bulletHitLayer
+            )
         }, this)
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05)
         const zoom = Math.min(200 / this.map.widthInPixels, 200 / this.map.heightInPixels)
-        this.minimap = this.cameras.add(this.sys.canvas.width - 200, this.sys.canvas.height - 200, 200, 200).setZoom(zoom).setBackgroundColor(0x000000).setOrigin(0.5).setScroll(0, -100).startFollow(this.player).setBounds(0, -50 / zoom / 2, this.map.widthInPixels, this.map.heightInPixels)
-
-        
-        
+        this.minimap = this.cameras
+            .add(this.sys.canvas.width - 200, this.sys.canvas.height - 200, 200, 200)
+            .setZoom(zoom)
+            .setBackgroundColor(0x000000)
+            .setOrigin(0.5)
+            .setScroll(0, -100)
+            .startFollow(this.player)
+            .setBounds(0, -50 / zoom / 2, this.map.widthInPixels, this.map.heightInPixels)
     }
 
     update(time: number, delta: number): void {
@@ -117,9 +113,9 @@ export class GameScene extends Phaser.Scene {
                     (enemy as Enemy).body.y,
                     this.player.body.x,
                     this.player.body.y
-                );
+                )
 
-                (enemy as Enemy).getBarrel().angle = (angle + Math.PI / 2) * Phaser.Math.RAD_TO_DEG
+                ;(enemy as Enemy).getBarrel().angle = (angle + Math.PI / 2) * Phaser.Math.RAD_TO_DEG
             }
         }, this)
         if (this.enemies.getChildren().length == 0 && !this.isWinning) {
@@ -129,7 +125,6 @@ export class GameScene extends Phaser.Scene {
                 DataManager.getInstance().saveScore()
                 DataManager.getInstance().setState(State.WIN)
             })
-            
         }
     }
 
@@ -167,26 +162,35 @@ export class GameScene extends Phaser.Scene {
         })
     }
 
-    private bulletHitLayer = (bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody) => {
+    private bulletHitLayer = (
+        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    ) => {
         if (this.player.getBullets().contains(bullet as GameObjects.GameObject)) {
             SoundManager.getInstance().playWallHitSound()
         }
         bullet.destroy()
     }
 
-    private bulletHitObstacles = (bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody) => {
+    private bulletHitObstacles = (
+        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    ) => {
         bullet.destroy()
     }
 
-    private enemyBulletHitPlayer = (bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody, player: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody) => {
-        bullet.destroy();
-        (player as Player).updateHealth()
+    private enemyBulletHitPlayer = (
+        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+        player: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    ) => {
+        bullet.destroy()
+        ;(player as Player).updateHealth()
     }
 
-    private playerBulletHitEnemy = (bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody, enemy: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody) => {
-        bullet.destroy();
-        SoundManager.getInstance().playEnemyHitSound();
-        (enemy as Enemy).updateHealth()
-        
+    private playerBulletHitEnemy = (
+        bullet: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody,
+        enemy: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
+    ) => {
+        bullet.destroy()
+        SoundManager.getInstance().playEnemyHitSound()
+        ;(enemy as Enemy).updateHealth()
     }
 }

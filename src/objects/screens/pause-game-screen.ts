@@ -1,9 +1,9 @@
-import { Scene } from "phaser";
-import { Screen } from "./screen";
-import { Panel } from "../../ui-objects/panel";
-import { Button } from "../../ui-objects/button";
-import { DataManager } from "../../managers/data-manager";
-import { SoundManager } from "../../managers/sound-manager";
+import { Scene } from 'phaser'
+import { Screen } from './screen'
+import { Panel } from '../../ui-objects/panel'
+import { Button } from '../../ui-objects/button'
+import { DataManager } from '../../managers/data-manager'
+import { SoundManager } from '../../managers/sound-manager'
 
 export class PauseGameScreen extends Screen {
     private background: Phaser.GameObjects.Rectangle
@@ -27,12 +27,10 @@ export class PauseGameScreen extends Screen {
             targets: [this.background, this.panel, this.settingsButton],
             scale: 1,
             ease: 'back.out',
-            duration: 300
+            duration: 300,
         })
     }
-    public update(time: number, delta: number): void {
-        
-    }
+    public update(time: number, delta: number): void {}
     private createButtons(): void {
         this.restartButton = new Button({
             scene: this.scene,
@@ -49,9 +47,9 @@ export class PauseGameScreen extends Screen {
                     onComplete: () => {
                         this.manager.startGame()
                         this.manager.transitionToLastScreen()
-                    }
+                    },
                 })
-            }
+            },
         })
         this.resumeButton = new Button({
             scene: this.scene,
@@ -68,10 +66,9 @@ export class PauseGameScreen extends Screen {
                     onComplete: () => {
                         this.manager.resumeGame()
                         this.manager.transitionToLastScreen()
-                    }
+                    },
                 })
-                
-            }
+            },
         }).setScale(1.2)
         this.settingsButton = new Button({
             scene: this.scene,
@@ -81,7 +78,7 @@ export class PauseGameScreen extends Screen {
             hoverTexture: 'settings_hover_button',
             onButtonClicked: () => {
                 this.manager.transitionToSettingsScreen()
-            } 
+            },
         })
         this.homeButton = new Button({
             scene: this.scene,
@@ -92,31 +89,35 @@ export class PauseGameScreen extends Screen {
             onButtonClicked: () => {
                 SoundManager.getInstance().playMenuMusic()
                 this.manager.transitionToMainMenuScreen()
-            }
+            },
         })
         this.panel = new Panel({
             scene: this.scene,
             x: this.scene.sys.canvas.width / 2,
             y: this.scene.sys.canvas.height / 2,
             texture: 'medium_panel',
-            buttons: [
-                this.restartButton,
-                this.resumeButton,
-                this.homeButton
-            ]
+            buttons: [this.restartButton, this.resumeButton, this.homeButton],
         })
         this.panel.addText({
             x: 0,
             y: -70,
             text: 'PAUSE',
             size: 40,
-            tint: 0xffffff
+            tint: 0xffffff,
         })
         this.add(this.panel)
         this.add(this.settingsButton)
     }
     private createBackground(): void {
-        this.background = this.scene.add.rectangle(this.scene.sys.canvas.width / 2, this.scene.sys.canvas.height / 2, this.scene.sys.canvas.width, this.scene.sys.canvas.height, 0x000000).setAlpha(0.5)
+        this.background = this.scene.add
+            .rectangle(
+                this.scene.sys.canvas.width / 2,
+                this.scene.sys.canvas.height / 2,
+                this.scene.sys.canvas.width,
+                this.scene.sys.canvas.height,
+                0x000000
+            )
+            .setAlpha(0.5)
         this.add(this.background)
     }
 }

@@ -1,7 +1,7 @@
-import { Scene } from "phaser";
-import { Screen } from "./screen";
-import { Button } from "../../ui-objects/button";
-import { DataManager, State } from "../../managers/data-manager";
+import { Scene } from 'phaser'
+import { Screen } from './screen'
+import { Button } from '../../ui-objects/button'
+import { DataManager, State } from '../../managers/data-manager'
 
 export class MainGameScreen extends Screen {
     private pauseButton: Button
@@ -11,7 +11,6 @@ export class MainGameScreen extends Screen {
         this.create()
     }
     public create(): void {
-        
         this.pauseButton = new Button({
             scene: this.scene,
             x: this.scene.sys.canvas.width - 50,
@@ -21,10 +20,14 @@ export class MainGameScreen extends Screen {
             onButtonClicked: () => {
                 this.manager.pauseGame()
                 this.manager.transitionToPauseGameScreen()
-            }
+            },
         })
         this.pauseButton.setScale(0.7)
-        this.enemiesLeftText = this.scene.add.text(20, 20, 'Enemies left: ', {fontSize: '30px', color: 'white', fontStyle: 'bold'})
+        this.enemiesLeftText = this.scene.add.text(20, 20, 'Enemies left: ', {
+            fontSize: '30px',
+            color: 'white',
+            fontStyle: 'bold',
+        })
         this.add(this.pauseButton)
         this.add(this.enemiesLeftText)
     }
@@ -34,12 +37,13 @@ export class MainGameScreen extends Screen {
             DataManager.getInstance().setState(State.PAUSE_LOSE)
             this.manager.pauseGame()
             this.manager.transitionToEndGameScreen()
-        }
-        else if (DataManager.getInstance().getState() == State.WIN) {
+        } else if (DataManager.getInstance().getState() == State.WIN) {
             DataManager.getInstance().setState(State.PAUSE_WIN)
             this.manager.pauseGame()
             this.manager.transitionToEndGameScreen()
         }
-        this.enemiesLeftText.setText('Enemies left: ' + DataManager.getInstance().getEnemiesLeft().toString())
+        this.enemiesLeftText.setText(
+            'Enemies left: ' + DataManager.getInstance().getEnemiesLeft().toString()
+        )
     }
 }

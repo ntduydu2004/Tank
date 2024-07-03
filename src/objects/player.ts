@@ -6,9 +6,9 @@ import { SoundManager } from '../managers/sound-manager'
 export enum Direction {
     UP = -Math.PI,
     DOWN = 0,
-    RIGHT = - Math.PI / 2,
+    RIGHT = -Math.PI / 2,
     LEFT = Math.PI / 2,
-    NONE = 4 * Math.PI
+    NONE = 4 * Math.PI,
 }
 export class Player extends Phaser.GameObjects.Image {
     body: Phaser.Physics.Arcade.Body
@@ -33,7 +33,7 @@ export class Player extends Phaser.GameObjects.Image {
     private shootingKey: Phaser.Input.Pointer
     private horizontalKeyDirection: Direction = Direction.NONE
     private verticalKeyDirection: Direction = Direction.NONE
-    
+
     // change direction tween
     public getBullets(): Phaser.GameObjects.Group {
         return this.bullets
@@ -100,31 +100,32 @@ export class Player extends Phaser.GameObjects.Image {
     }
 
     private handleInput(time: number, delta: number) {
-        let worldPoint = this.scene.cameras.main.getWorldPoint(this.shootingKey.x, this.shootingKey.y)
-        this.barrel.rotation = -Phaser.Math.Angle.BetweenY(this.barrel.x, this.barrel.y, worldPoint.x, worldPoint.y) + Math.PI
-        if (!this.keyUp.isDown && ! this.keyDown.isDown) {
+        let worldPoint = this.scene.cameras.main.getWorldPoint(
+            this.shootingKey.x,
+            this.shootingKey.y
+        )
+        this.barrel.rotation =
+            -Phaser.Math.Angle.BetweenY(this.barrel.x, this.barrel.y, worldPoint.x, worldPoint.y) +
+            Math.PI
+        if (!this.keyUp.isDown && !this.keyDown.isDown) {
             this.verticalKeyDirection = Direction.NONE
-        }
-        else if (this.keyUp.isDown && this.keyDown.isDown){
-            this.verticalKeyDirection = (this.keyUp.timeDown < this.keyDown.timeDown ? Direction.DOWN : Direction.UP)
-        }
-        else if (this.keyUp.isDown) {
+        } else if (this.keyUp.isDown && this.keyDown.isDown) {
+            this.verticalKeyDirection =
+                this.keyUp.timeDown < this.keyDown.timeDown ? Direction.DOWN : Direction.UP
+        } else if (this.keyUp.isDown) {
             this.verticalKeyDirection = Direction.UP
-        }
-        else {
+        } else {
             this.verticalKeyDirection = Direction.DOWN
         }
 
-        if (!this.keyLeft.isDown && ! this.keyRight.isDown) {
+        if (!this.keyLeft.isDown && !this.keyRight.isDown) {
             this.horizontalKeyDirection = Direction.NONE
-        }
-        else if (this.keyLeft.isDown && this.keyRight.isDown) {
-            this.horizontalKeyDirection = (this.keyLeft.timeDown < this.keyRight.timeDown ? Direction.RIGHT : Direction.LEFT)
-        }
-        else if (this.keyLeft.isDown) {
+        } else if (this.keyLeft.isDown && this.keyRight.isDown) {
+            this.horizontalKeyDirection =
+                this.keyLeft.timeDown < this.keyRight.timeDown ? Direction.RIGHT : Direction.LEFT
+        } else if (this.keyLeft.isDown) {
             this.horizontalKeyDirection = Direction.LEFT
-        }
-        else {
+        } else {
             this.horizontalKeyDirection = Direction.RIGHT
         }
         if (this.horizontalKeyDirection == Direction.NONE) {
@@ -133,18 +134,26 @@ export class Player extends Phaser.GameObjects.Image {
         if (this.verticalKeyDirection == Direction.NONE) {
             this.verticalKeyDirection = this.horizontalKeyDirection
         }
-        if (this.horizontalKeyDirection == Direction.NONE && this.verticalKeyDirection == Direction.NONE) {
+        if (
+            this.horizontalKeyDirection == Direction.NONE &&
+            this.verticalKeyDirection == Direction.NONE
+        ) {
             this.body.setVelocity(0)
-        }
-        else {
+        } else {
             if (Math.abs(this.horizontalKeyDirection - this.verticalKeyDirection) > Math.PI / 2) {
-                this.rotateTo((this.horizontalKeyDirection + this.verticalKeyDirection) / 2 + Math.PI, delta)
-            }
-            else {
+                this.rotateTo(
+                    (this.horizontalKeyDirection + this.verticalKeyDirection) / 2 + Math.PI,
+                    delta
+                )
+            } else {
                 this.rotateTo((this.horizontalKeyDirection + this.verticalKeyDirection) / 2, delta)
             }
-            
-            this.scene.physics.velocityFromRotation(this.rotation + Math.PI / 2, this.speed, this.body.velocity)
+
+            this.scene.physics.velocityFromRotation(
+                this.rotation + Math.PI / 2,
+                this.speed,
+                this.body.velocity
+            )
         }
     }
     private handleShooting(time: number, delta: number): void {
@@ -163,7 +172,7 @@ export class Player extends Phaser.GameObjects.Image {
                 yoyo: true,
                 paused: false,
             })
-            
+
             if (this.bullets.getLength() < 10) {
                 SoundManager.getInstance().playShootSound()
                 this.bullets.add(
@@ -183,8 +192,7 @@ export class Player extends Phaser.GameObjects.Image {
     private rotateTo(rotation: number, deltaTime: number) {
         if (rotation >= 2 * Math.PI) {
             rotation -= 2 * Math.PI
-        }
-        else if (rotation <= - 2 * Math.PI) {
+        } else if (rotation <= -2 * Math.PI) {
             rotation += 2 * Math.PI
         }
 
@@ -197,8 +205,7 @@ export class Player extends Phaser.GameObjects.Image {
         }
         if (Math.abs(delta) <= 0.02 * deltaTime) {
             this.rotation = rotation
-        }
-        else {
+        } else {
             this.rotation += direction * 0.02 * deltaTime
         }
     }
