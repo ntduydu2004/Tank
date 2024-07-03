@@ -1,0 +1,224 @@
+{
+  "preload": {
+    "files": [
+      {
+        "type": "tilemapTiledJSON",
+        "key": "levelMap",
+        "url": "./assets/maps/levelMap.json"
+      },
+      {
+        "type": "bitmapFont",
+        "key": "font",
+        "textureURL": "./assets/font/font.png",
+        "fontDataURL": "./assets/font/font.fnt"
+      },
+      {
+        "type": "image",
+        "key": "tankBlue",
+        "url": "./assets/sprites/tank-blue.png"
+      },
+      {
+        "type": "image",
+        "key": "tankRed",
+        "url": "./assets/sprites/tank-red.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelBlue",
+        "url": "./assets/sprites/barrel-blue.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelRed",
+        "url": "./assets/sprites/barrel-red.png"
+      },
+      {
+        "type": "image",
+        "key": "bulletBlue",
+        "url": "./assets/sprites/bullet-blue.png"
+      },
+      {
+        "type": "image",
+        "key": "bulletRed",
+        "url": "./assets/sprites/bullet-red.png"
+      },
+      {
+        "type": "image",
+        "key": "tiles",
+        "url": "./assets/tiles/tiles.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelGreyTop",
+        "url": "./assets/obstacles/barrel-grey-top.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelGreySideRust",
+        "url": "./assets/obstacles/barrel-grey-side-rust.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelGreySide",
+        "url": "./assets/obstacles/barrel-grey-side.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelRedTop",
+        "url": "./assets/obstacles/barrel-red-top.png"
+      },
+      {
+        "type": "image",
+        "key": "barrelRedSide",
+        "url": "./assets/obstacles/barrel-red-side.png"
+      },
+      {
+        "type": "image",
+        "key": "treeSmall",
+        "url": "./assets/obstacles/tree-small.png"
+      },
+      {
+        "type": "image",
+        "key": "treeLarge",
+        "url": "./assets/obstacles/tree-large.png"
+      },
+      {
+        "type": "image",
+        "key": "background",
+        "url": "./assets/hud/background.jpg"
+      },
+      {
+        "type": "image",
+        "key": "hover_button",
+        "url": "./assets/hud/hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "normal_button",
+        "url": "./assets/hud/normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "pause_normal_button",
+        "url": "./assets/hud/pause_normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "pause_hover_button",
+        "url": "./assets/hud/pause_hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "resume_normal_button",
+        "url": "./assets/hud/resume_normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "resume_hover_button",
+        "url": "./assets/hud/resume_hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "restart_normal_button",
+        "url": "./assets/hud/restart_normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "restart_hover_button",
+        "url": "./assets/hud/restart_hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "home_hover_button",
+        "url": "./assets/hud/home_hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "home_normal_button",
+        "url": "./assets/hud/home_normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "back_hover_button",
+        "url": "./assets/hud/back_hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "back_normal_button",
+        "url": "./assets/hud/back_normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "settings_hover_button",
+        "url": "./assets/hud/settings_hover_button.png"
+      },
+      {
+        "type": "image",
+        "key": "settings_normal_button",
+        "url": "./assets/hud/settings_normal_button.png"
+      },
+      {
+        "type": "image",
+        "key": "medium_panel",
+        "url": "./assets/hud/medium_panel.png"
+      },
+      {
+        "type": "image",
+        "key": "big_panel",
+        "url": "./assets/hud/big_panel.png"
+      },
+      {
+        "type": "image",
+        "key": "white",
+        "url": "./assets/hud/white.png"
+      },
+      {
+        "type": "atlas",
+        "key": "flares",
+        "textureURL": "./assets/hud/flares.png",
+        "atlasURL": "./assets/hud/flares.json"
+      },
+      {
+        "type": "audio",
+        "key": "ingame_music",
+        "url": "./assets/sounds/ingame_music.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "menu_music",
+        "url": "./assets/sounds/menu_music.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "shoot_sound",
+        "url": "./assets/sounds/shoot_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "enemy_shoot_sound",
+        "url": "./assets/sounds/enemy_shoot_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "wall_hit_sound",
+        "url": "./assets/sounds/wall_hit_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "enemy_hit_sound",
+        "url": "./assets/sounds/enemy_hit_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "button_click_sound",
+        "url": "./assets/sounds/button_click_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "button_hover_sound",
+        "url": "./assets/sounds/button_hover_sound.mp3"
+      }
+      
+    ]
+  }
+}
