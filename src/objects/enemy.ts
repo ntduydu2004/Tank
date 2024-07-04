@@ -101,11 +101,9 @@ export class Enemy extends Phaser.GameObjects.Image {
     }
     private handleVirtualHealth(time: number, delta: number): void {
         if (this.scene.time.now > this.lastBeingShot && this.virtualHealth > this.health) {
-            // console.log(this.scene.time.now, this.lastBeingShot, this.virtualHealth, this.health)
             if (this.virtualHealth - 0.002 * delta < this.health) {
                 this.virtualHealth = this.health
-            }
-            else {
+            } else {
                 this.virtualHealth -= 0.002 * delta
             }
             this.redrawVirtualLifeBar()
@@ -114,7 +112,12 @@ export class Enemy extends Phaser.GameObjects.Image {
     private redrawVirtualLifeBar(): void {
         this.virtualLifeBar.clear()
         this.virtualLifeBar.fillStyle(0xebeb00, 1)
-        this.virtualLifeBar.fillRect(-this.width / 2, this.height / 2, this.width * this.virtualHealth, 15)
+        this.virtualLifeBar.fillRect(
+            -this.width / 2,
+            this.height / 2,
+            this.width * this.virtualHealth,
+            15
+        )
         this.virtualLifeBar.setDepth(1)
     }
     private handleShooting(): void {

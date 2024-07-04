@@ -87,9 +87,7 @@ export class DataManager {
         this.killStreak++
     }
     public saveScore() {
-        console.log(this.killStreak, this.healthLeft)
         this.score = this.killStreak * 200 + this.healthLeft * 50
-        console.log(this.score)
         this.highScore = Math.max(this.highScore, this.score)
         localStorage.setItem('highScore', JSON.stringify(this.highScore))
     }

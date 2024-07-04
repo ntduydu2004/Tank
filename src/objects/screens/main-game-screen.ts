@@ -41,13 +41,15 @@ export class MainGameScreen extends Screen {
                 0xff0000
             )
             .setAlpha(0)
-        this.lowHealthTween = this.scene.add.tween({
-            targets: this.background,
-            alpha: 0.3,
-            duration: 1000,
-            yoyo: true,
-            repeat: -1
-        }).pause()
+        this.lowHealthTween = this.scene.add
+            .tween({
+                targets: this.background,
+                alpha: 0.3,
+                duration: 1000,
+                yoyo: true,
+                repeat: -1,
+            })
+            .pause()
         this.add(this.background)
         this.add(this.pauseButton)
         this.add(this.enemiesLeftText)
@@ -55,13 +57,15 @@ export class MainGameScreen extends Screen {
 
     public update(time: number, delta: number): void {
         if (this.lowHealthTween === undefined || this.lowHealthTween.isDestroyed()) {
-            this.lowHealthTween = this.scene.add.tween({
-                targets: this.background,
-                alpha: 0.3,
-                duration: 1000,
-                yoyo: true,
-                repeat: -1
-            }).pause()
+            this.lowHealthTween = this.scene.add
+                .tween({
+                    targets: this.background,
+                    alpha: 0.3,
+                    duration: 1000,
+                    yoyo: true,
+                    repeat: -1,
+                })
+                .pause()
         }
         if (DataManager.getInstance().getState() == State.LOSE) {
             this.gameEnded = true
@@ -75,21 +79,18 @@ export class MainGameScreen extends Screen {
             DataManager.getInstance().setState(State.PAUSE_WIN)
             this.manager.pauseGame()
             this.manager.transitionToEndGameScreen()
-        }
-        else {
+        } else {
             this.gameEnded = false
         }
         this.enemiesLeftText.setText(
             'Enemies left: ' + DataManager.getInstance().getEnemiesLeft().toString()
         )
         if (DataManager.getInstance().getHealthLeft() <= 0.2 && !this.gameEnded) {
-            console.log('tween')
             if (this.lowHealthTween.isPaused()) {
                 this.background.setAlpha(0)
                 this.lowHealthTween.restart()
             }
-        }
-        else {
+        } else {
             this.background.setAlpha(0)
         }
     }
