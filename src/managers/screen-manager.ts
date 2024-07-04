@@ -59,6 +59,7 @@ export class ScreenManager {
         if (this.screenStack.length == 0) {
             this.transitionTo(new MainMenuScreen(this.menuScene))
         } else {
+            this.menuScene.tweens.killAll()
             while (this.screenStack.length > 1) {
                 let screen = this.screenStack.pop()!
                 screen.destroy()

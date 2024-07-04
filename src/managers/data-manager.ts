@@ -80,6 +80,9 @@ export class DataManager {
     public setHealthLeft(health: number) {
         this.healthLeft = health
     }
+    public getHealthLeft() {
+        return this.healthLeft
+    }
     public addStreak() {
         this.killStreak++
     }
