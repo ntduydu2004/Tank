@@ -19,7 +19,7 @@ export class Bullet extends Phaser.GameObjects.Image {
 
         // image
         this.setOrigin(0.5, 0.5)
-        this.setDepth(2)
+        this.setDepth(0.5)
 
         // physics
         this.scene.physics.world.enable(this)

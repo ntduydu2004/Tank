@@ -22,6 +22,7 @@ export class MainGameScreen extends Screen {
             texture: 'pause_normal_button',
             hoverTexture: 'pause_hover_button',
             onButtonClicked: () => {
+                this.disableButtons()
                 this.manager.pauseGame()
                 this.manager.transitionToPauseGameScreen()
             },
@@ -93,5 +94,11 @@ export class MainGameScreen extends Screen {
         } else {
             this.background.setAlpha(0)
         }
+    }
+    public enableButtons(): void {
+        this.pauseButton.setInteractive()
+    }
+    public disableButtons(): void {
+        this.pauseButton.disableInteractive()
     }
 }

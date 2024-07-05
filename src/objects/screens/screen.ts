@@ -14,4 +14,6 @@ export abstract class Screen extends Phaser.GameObjects.Container {
     }
     protected abstract create(): void
     public abstract update(time: number, delta: number): void
+    public abstract enableButtons(): void
+    public abstract disableButtons(): void
 }

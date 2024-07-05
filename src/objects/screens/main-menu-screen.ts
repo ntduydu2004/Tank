@@ -30,12 +30,9 @@ export class MainMenuScreen extends Screen {
             hoverTexture: 'hover_button',
             onButtonClicked: () => {
                 SoundManager.getInstance().stopAllMusic()
-                this.playButton.disableInteractive()
-                this.settingsButton.disableInteractive()
+                this.disableButtons()
                 this.scene.cameras.main.fadeOut(500)
                 let callback = () => {
-                    this.playButton.setInteractive()
-                    this.settingsButton.setInteractive()
                     this.scene.cameras.main.off(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
                     this.scene.cameras.main.fadeIn(1000)
                     SoundManager.getInstance().playIngameMusic()
@@ -60,12 +57,7 @@ export class MainMenuScreen extends Screen {
             texture: 'normal_button',
             hoverTexture: 'hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.playButton.disableInteractive()
-                this.scene.time.delayedCall(550, () => {
-                    this.settingsButton.disableInteractive()
-                    this.playButton.disableInteractive()
-                })
+                this.disableButtons()
                 this.manager.transitionToSettingsScreen()
             },
         })
@@ -113,5 +105,13 @@ export class MainMenuScreen extends Screen {
         this.add(this.background)
         this.add(this.particles)
         this.add(this.title)
+    }
+    public enableButtons(): void {
+        this.settingsButton.setInteractive()
+        this.playButton.setInteractive()
+    }
+    public disableButtons(): void {
+        this.settingsButton.disableInteractive()
+        this.playButton.disableInteractive()
     }
 }

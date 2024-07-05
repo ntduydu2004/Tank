@@ -80,6 +80,7 @@ export class SettingsScreen extends Screen {
             texture: 'back_normal_button',
             hoverTexture: 'back_hover_button',
             onButtonClicked: () => {
+                this.disableButtons()
                 this.manager.transitionToLastScreen()
             },
         }).setScale(0.7)
@@ -94,5 +95,11 @@ export class SettingsScreen extends Screen {
             0x323741
         )
         this.add(this.background)
+    }
+    public enableButtons(): void {
+        this.backButton.setInteractive()
+    }
+    public disableButtons(): void {
+        this.backButton.disableInteractive()
     }
 }

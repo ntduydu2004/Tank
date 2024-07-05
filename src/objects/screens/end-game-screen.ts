@@ -29,10 +29,10 @@ export class EndGameScreen extends Screen {
         this.createPanel()
         this.victorySymbol.setScale(0)
         this.background.setScale(0)
-        this.settingsButton.setScale(0)
         this.score = 0
         this.highScore = 0
         if (this.dataManager.getState() == State.PAUSE_LOSE) {
+            this.settingsButton.setScale(0)
             this.panel.setScale(0)
             this.scene.add.tween({
                 targets: [this.background, this.panel, this.settingsButton],
@@ -66,6 +66,7 @@ export class EndGameScreen extends Screen {
         } else {
             this.panel.y = this.scene.sys.canvas.height / 2 + 100
             this.panel.setAlpha(0)
+            this.settingsButton.setAlpha(0)
             this.scene.tweens.chain({
                 targets: this.victorySymbol,
                 tweens: [
@@ -85,7 +86,7 @@ export class EndGameScreen extends Screen {
                         },
                     },
                     {
-                        targets: this.panel,
+                        targets: [this.panel, this.settingsButton],
                         alpha: 1,
                         ease: 'linear',
                         duration: 1000,
@@ -116,7 +117,7 @@ export class EndGameScreen extends Screen {
             })
 
             this.scene.add.tween({
-                targets: [this.background, this.settingsButton],
+                targets: [this.background],
                 scale: 1,
                 ease: 'back.out',
                 duration: 300,
@@ -132,9 +133,8 @@ export class EndGameScreen extends Screen {
             texture: 'restart_normal_button',
             hoverTexture: 'restart_hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.homeButton.disableInteractive()
-                this.restartButton.disableInteractive()
+                this.disableButtons()
+                this.scene.tweens.killAll()
                 this.scene.cameras.main.fadeOut(500)
                 let callback = () => {
                     this.scene.cameras.main.off(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
@@ -154,14 +154,8 @@ export class EndGameScreen extends Screen {
             texture: 'settings_normal_button',
             hoverTexture: 'settings_hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.homeButton.disableInteractive()
-                this.restartButton.disableInteractive()
-                this.scene.time.delayedCall(550, () => {
-                    this.settingsButton.setInteractive()
-                    this.homeButton.setInteractive()
-                    this.restartButton.setInteractive()
-                })
+                this.disableButtons()
+                this.scene.tweens.killAll()
                 this.manager.transitionToSettingsScreen()
             },
         })
@@ -172,9 +166,7 @@ export class EndGameScreen extends Screen {
             texture: 'home_normal_button',
             hoverTexture: 'home_hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.homeButton.disableInteractive()
-                this.restartButton.disableInteractive()
+                this.disableButtons()
                 this.scene.tweens.killAll()
                 this.scene.cameras.main.fadeOut(200)
                 this.manager.transitionToMainMenuScreen()
@@ -241,5 +233,14 @@ export class EndGameScreen extends Screen {
         this.add(this.particles)
         this.add(this.victorySymbol)
     }
-    
+    public enableButtons(): void {
+        this.settingsButton.setInteractive()
+        this.homeButton.setInteractive()
+        this.restartButton.setInteractive()
+    }
+    public disableButtons(): void {
+        this.settingsButton.disableInteractive()
+        this.homeButton.disableInteractive()
+        this.restartButton.disableInteractive()
+    }
 }

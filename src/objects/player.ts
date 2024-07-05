@@ -205,7 +205,7 @@ export class Player extends Phaser.GameObjects.Image {
                 })
             )
 
-            this.lastShoot = this.scene.time.now + 120
+            this.lastShoot = this.scene.time.now + 100
         }
     }
     private rotateTo(rotation: number, deltaTime: number) {
@@ -248,7 +248,7 @@ export class Player extends Phaser.GameObjects.Image {
         this.virtualLifeBar.setDepth(1)
     }
     public updateHealth(): void {
-        if (this.health > 0) {
+        if (this.health > 0.05) {
             this.health -= 0.05
             this.lastBeingShot = this.scene.time.now + 1000
             DataManager.getInstance().setHealthLeft(this.health)

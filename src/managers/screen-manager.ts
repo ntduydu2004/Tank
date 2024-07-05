@@ -41,6 +41,7 @@ export class ScreenManager {
         this.screenStack.pop()
         this.currentScreen = this.screenStack[this.screenStack.length - 1]
         this.currentScreen.setPosition(0)
+        this.currentScreen.enableButtons()
     }
     public transitionToLastScreen() {
         this.screenStack.pop()
@@ -53,6 +54,7 @@ export class ScreenManager {
             x: 1000,
             ease: 'back.in',
             onComplete: () => {
+                this.currentScreen.enableButtons()
                 oldScreen.destroy()
             }
         })
@@ -62,7 +64,9 @@ export class ScreenManager {
     }
     public transitionToSettingsScreen() {
         let screen = new SettingsScreen(this.menuScene)
+        screen.setManager(this)
         screen.setPosition(1000, 0)
+        screen.disableButtons()
         this.menuScene.add.tween({
             targets: screen,
             duration: 500,
@@ -73,8 +77,8 @@ export class ScreenManager {
                     let oldScreen = this.currentScreen
                     oldScreen.setPosition(1000)
                 }
+                screen.enableButtons()
                 this.currentScreen = screen
-                this.currentScreen.setManager(this)
                 this.screenStack.push(this.currentScreen)
             }
         })
@@ -103,6 +107,7 @@ export class ScreenManager {
                 }
                 this.currentScreen = this.screenStack[0]
                 this.currentScreen.setPosition(0)
+                this.currentScreen.enableButtons()
                 this.menuScene.cameras.main.fadeIn(200)
                 console.log('fade in')
                 

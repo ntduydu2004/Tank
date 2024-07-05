@@ -41,10 +41,7 @@ export class PauseGameScreen extends Screen {
             texture: 'restart_normal_button',
             hoverTexture: 'restart_hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.homeButton.disableInteractive()
-                this.restartButton.disableInteractive()
-                this.resumeButton.disableInteractive()
+                this.disableButtons()
                 this.scene.cameras.main.fadeOut(500)
                 let callback = () => {
                     this.scene.cameras.main.off(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
@@ -63,6 +60,7 @@ export class PauseGameScreen extends Screen {
             texture: 'resume_normal_button',
             hoverTexture: 'resume_hover_button',
             onButtonClicked: () => {
+                this.disableButtons()
                 this.scene.add.tween({
                     targets: [this.background, this.panel, this.settingsButton],
                     scale: 0,
@@ -82,16 +80,7 @@ export class PauseGameScreen extends Screen {
             texture: 'settings_normal_button',
             hoverTexture: 'settings_hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.homeButton.disableInteractive()
-                this.restartButton.disableInteractive()
-                this.resumeButton.disableInteractive()
-                this.scene.time.delayedCall(550, () => {
-                    this.settingsButton.setInteractive()
-                    this.homeButton.setInteractive()
-                    this.restartButton.setInteractive()
-                    this.resumeButton.setInteractive()
-                })
+                this.disableButtons()
                 this.manager.transitionToSettingsScreen()
             },
         })
@@ -102,10 +91,7 @@ export class PauseGameScreen extends Screen {
             texture: 'home_normal_button',
             hoverTexture: 'home_hover_button',
             onButtonClicked: () => {
-                this.settingsButton.disableInteractive()
-                this.homeButton.disableInteractive()
-                this.restartButton.disableInteractive()
-                this.resumeButton.disableInteractive()
+                this.disableButtons()
                 this.scene.cameras.main.fadeOut(200)
                 this.manager.transitionToMainMenuScreen()
             },
@@ -138,5 +124,19 @@ export class PauseGameScreen extends Screen {
             )
             .setAlpha(0.5)
         this.add(this.background)
+    }
+
+    public enableButtons(): void {
+        this.settingsButton.setInteractive()
+        this.homeButton.setInteractive()
+        this.restartButton.setInteractive()
+        this.resumeButton.setInteractive()
+    }
+
+    public disableButtons(): void {
+        this.settingsButton.disableInteractive()
+        this.homeButton.disableInteractive()
+        this.restartButton.disableInteractive()
+        this.resumeButton.disableInteractive()
     }
 }
