@@ -25,6 +25,6 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
             gravity: { x: 0, y: 0 },
         },
     },
+    pixelArt: false,
     backgroundColor: '#000000',
-    render: { antialias: true },
 }

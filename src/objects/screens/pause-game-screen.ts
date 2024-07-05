@@ -30,7 +30,9 @@ export class PauseGameScreen extends Screen {
             duration: 300,
         })
     }
-    public update(time: number, delta: number): void {}
+    public update(time: number, delta: number): void {
+        console.log(10)
+    }
     private createButtons(): void {
         this.restartButton = new Button({
             scene: this.scene,
@@ -39,16 +41,19 @@ export class PauseGameScreen extends Screen {
             texture: 'restart_normal_button',
             hoverTexture: 'restart_hover_button',
             onButtonClicked: () => {
-                this.scene.add.tween({
-                    targets: [this.background, this.panel, this.settingsButton],
-                    scale: 0,
-                    ease: 'back.in',
-                    duration: 300,
-                    onComplete: () => {
-                        this.manager.startGame()
-                        this.manager.transitionToLastScreen()
-                    },
-                })
+                this.settingsButton.disableInteractive()
+                this.homeButton.disableInteractive()
+                this.restartButton.disableInteractive()
+                this.resumeButton.disableInteractive()
+                this.scene.cameras.main.fadeOut(500)
+                let callback = () => {
+                    this.scene.cameras.main.off(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
+                    this.scene.cameras.main.fadeIn(1000)
+                    SoundManager.getInstance().playIngameMusic()
+                    this.manager.startGame()
+                    this.manager.transitionToLastScreenInstantly()
+                }
+                this.scene.cameras.main.on(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
             },
         })
         this.resumeButton = new Button({
@@ -65,7 +70,7 @@ export class PauseGameScreen extends Screen {
                     duration: 300,
                     onComplete: () => {
                         this.manager.resumeGame()
-                        this.manager.transitionToLastScreen()
+                        this.manager.transitionToLastScreenInstantly()
                     },
                 })
             },
@@ -77,6 +82,16 @@ export class PauseGameScreen extends Screen {
             texture: 'settings_normal_button',
             hoverTexture: 'settings_hover_button',
             onButtonClicked: () => {
+                this.settingsButton.disableInteractive()
+                this.homeButton.disableInteractive()
+                this.restartButton.disableInteractive()
+                this.resumeButton.disableInteractive()
+                this.scene.time.delayedCall(550, () => {
+                    this.settingsButton.setInteractive()
+                    this.homeButton.setInteractive()
+                    this.restartButton.setInteractive()
+                    this.resumeButton.setInteractive()
+                })
                 this.manager.transitionToSettingsScreen()
             },
         })
@@ -87,7 +102,11 @@ export class PauseGameScreen extends Screen {
             texture: 'home_normal_button',
             hoverTexture: 'home_hover_button',
             onButtonClicked: () => {
-                SoundManager.getInstance().playMenuMusic()
+                this.settingsButton.disableInteractive()
+                this.homeButton.disableInteractive()
+                this.restartButton.disableInteractive()
+                this.resumeButton.disableInteractive()
+                this.scene.cameras.main.fadeOut(200)
                 this.manager.transitionToMainMenuScreen()
             },
         })

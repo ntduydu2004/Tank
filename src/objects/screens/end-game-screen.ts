@@ -132,18 +132,18 @@ export class EndGameScreen extends Screen {
             texture: 'restart_normal_button',
             hoverTexture: 'restart_hover_button',
             onButtonClicked: () => {
-                this.scene.add.tween({
-                    targets: [this.background, this.panel, this.settingsButton],
-                    scale: 0,
-                    ease: 'back.in',
-                    duration: 300,
-                    onComplete: () => {
-                        this.scene.tweens.killAll()
-                        SoundManager.getInstance().playIngameMusic()
-                        this.manager.startGame()
-                        this.manager.transitionToLastScreen()
-                    },
-                })
+                this.settingsButton.disableInteractive()
+                this.homeButton.disableInteractive()
+                this.restartButton.disableInteractive()
+                this.scene.cameras.main.fadeOut(500)
+                let callback = () => {
+                    this.scene.cameras.main.off(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
+                    this.scene.cameras.main.fadeIn(1000)
+                    SoundManager.getInstance().playIngameMusic()
+                    this.manager.startGame()
+                    this.manager.transitionToLastScreenInstantly()
+                }
+                this.scene.cameras.main.on(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
             },
         })
 
@@ -154,6 +154,14 @@ export class EndGameScreen extends Screen {
             texture: 'settings_normal_button',
             hoverTexture: 'settings_hover_button',
             onButtonClicked: () => {
+                this.settingsButton.disableInteractive()
+                this.homeButton.disableInteractive()
+                this.restartButton.disableInteractive()
+                this.scene.time.delayedCall(550, () => {
+                    this.settingsButton.setInteractive()
+                    this.homeButton.setInteractive()
+                    this.restartButton.setInteractive()
+                })
                 this.manager.transitionToSettingsScreen()
             },
         })
@@ -164,8 +172,11 @@ export class EndGameScreen extends Screen {
             texture: 'home_normal_button',
             hoverTexture: 'home_hover_button',
             onButtonClicked: () => {
+                this.settingsButton.disableInteractive()
+                this.homeButton.disableInteractive()
+                this.restartButton.disableInteractive()
                 this.scene.tweens.killAll()
-                SoundManager.getInstance().playMenuMusic()
+                this.scene.cameras.main.fadeOut(200)
                 this.manager.transitionToMainMenuScreen()
             },
         })
@@ -230,4 +241,5 @@ export class EndGameScreen extends Screen {
         this.add(this.particles)
         this.add(this.victorySymbol)
     }
+    
 }

@@ -20,6 +20,8 @@ export class GameScene extends Phaser.Scene {
     private isWinning: boolean
     private target: Phaser.Math.Vector2
     private minimap: Phaser.Cameras.Scene2D.Camera
+
+    private explosion: Phaser.GameObjects.Sprite
     constructor() {
         super({
             key: 'GameScene',
@@ -50,7 +52,14 @@ export class GameScene extends Phaser.Scene {
             0
         ) as Phaser.Tilemaps.TilemapLayer
         this.layer.setCollisionByProperty({ collide: true })
-
+        if (!this.anims.exists('explodeAnimation')) {
+            this.anims.create({
+                key: 'explodeAnimation',
+                frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 63, first: 0}),
+                frameRate: 60
+            })
+        }
+        
         this.obstacles = this.add.group({
             classType: Obstacle,
             runChildUpdate: true,
@@ -89,6 +98,8 @@ export class GameScene extends Phaser.Scene {
                 this.bulletHitLayer
             )
         }, this)
+        
+
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels)
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05)
         const zoom = Math.min(200 / this.map.widthInPixels, 200 / this.map.heightInPixels)
@@ -183,6 +194,7 @@ export class GameScene extends Phaser.Scene {
     ) => {
         bullet.destroy()
         ;(player as Player).updateHealth()
+        
     }
 
     private playerBulletHitEnemy = (
@@ -190,7 +202,9 @@ export class GameScene extends Phaser.Scene {
         enemy: Phaser.Tilemaps.Tile | Phaser.Types.Physics.Arcade.GameObjectWithBody
     ) => {
         bullet.destroy()
+        
         SoundManager.getInstance().playEnemyHitSound()
         ;(enemy as Enemy).updateHealth()
+        ;(enemy as Enemy).renderBloom()
     }
 }

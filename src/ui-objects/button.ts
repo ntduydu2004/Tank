@@ -17,6 +17,7 @@ export class Button extends Phaser.GameObjects.Container {
         this.isOver = false
         this.on('pointerup', params.onButtonClicked)
         this.on('pointerup', () => {
+            this.setAlpha(1)
             SoundManager.getInstance().playButtonClickSound()
         })
         this.on('pointerdown', () => {
@@ -29,6 +30,7 @@ export class Button extends Phaser.GameObjects.Container {
                 SoundManager.getInstance().playButtonHoverSound()
             }
         })
+        this.on
         this.on('pointerout', () => {
             this.setAlpha(1)
             this.background.setTexture(params.texture)

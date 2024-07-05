@@ -5,6 +5,7 @@ import { MainGameScreen } from '../objects/screens/main-game-screen'
 import { EndGameScreen } from '../objects/screens/end-game-screen'
 import { SettingsScreen } from '../objects/screens/settings-screen'
 import { PauseGameScreen } from '../objects/screens/pause-game-screen'
+import { SoundManager } from './sound-manager'
 
 export class ScreenManager {
     private currentScreen: Screen
@@ -34,17 +35,50 @@ export class ScreenManager {
             this.gameScene.scene.pause()
         }
     }
-    public transitionToLastScreen() {
-        this.screenStack.pop()
+    public transitionToLastScreenInstantly() {
+        console.log(this.currentScreen)
         this.currentScreen.destroy()
+        this.screenStack.pop()
         this.currentScreen = this.screenStack[this.screenStack.length - 1]
         this.currentScreen.setPosition(0)
+    }
+    public transitionToLastScreen() {
+        this.screenStack.pop()
+        let oldScreen = this.currentScreen
+        this.currentScreen = this.screenStack[this.screenStack.length - 1]
+        this.currentScreen.setPosition(0)
+        this.menuScene.add.tween({
+            targets: oldScreen,
+            duration: 500,
+            x: 1000,
+            ease: 'back.in',
+            onComplete: () => {
+                oldScreen.destroy()
+            }
+        })
     }
     public transitionToPauseGameScreen() {
         this.transitionTo(new PauseGameScreen(this.menuScene))
     }
     public transitionToSettingsScreen() {
-        this.transitionTo(new SettingsScreen(this.menuScene))
+        let screen = new SettingsScreen(this.menuScene)
+        screen.setPosition(1000, 0)
+        this.menuScene.add.tween({
+            targets: screen,
+            duration: 500,
+            ease: 'back.out',
+            x: 0,
+            onComplete: () => {
+                if (this.screenStack.length > 0) {
+                    let oldScreen = this.currentScreen
+                    oldScreen.setPosition(1000)
+                }
+                this.currentScreen = screen
+                this.currentScreen.setManager(this)
+                this.screenStack.push(this.currentScreen)
+            }
+        })
+        
     }
     public transitionToEndGameScreen() {
         this.transitionTo(new EndGameScreen(this.menuScene))
@@ -60,13 +94,25 @@ export class ScreenManager {
             this.transitionTo(new MainMenuScreen(this.menuScene))
         } else {
             this.menuScene.tweens.killAll()
-            while (this.screenStack.length > 1) {
-                let screen = this.screenStack.pop()!
-                screen.destroy()
+            let callback = () => {
+                this.menuScene.cameras.main.off(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
+                SoundManager.getInstance().playMenuMusic()
+                while (this.screenStack.length > 1) {
+                    let screen = this.screenStack.pop()!
+                    screen.destroy()
+                }
+                this.currentScreen = this.screenStack[0]
+                this.currentScreen.setPosition(0)
+                this.menuScene.cameras.main.fadeIn(200)
+                console.log('fade in')
+                
             }
-            this.currentScreen = this.screenStack[0]
-            this.currentScreen.setPosition(0)
+            this.menuScene.cameras.main.on(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, callback)
+            
         }
+    }
+    public getCurrentScreen() {
+        return this.currentScreen
     }
     private transitionTo(screen: Screen) {
         if (this.screenStack.length > 0) {
@@ -75,5 +121,6 @@ export class ScreenManager {
         this.currentScreen = screen
         this.currentScreen.setManager(this)
         this.screenStack.push(this.currentScreen)
+        console.log(this.currentScreen)
     }
 }

@@ -24,6 +24,7 @@ export class Player extends Phaser.GameObjects.Image {
     private barrel: Phaser.GameObjects.Image
     private lifeBar: Phaser.GameObjects.Graphics
     private virtualLifeBar: Phaser.GameObjects.Graphics
+    private bloom: Phaser.FX.Bloom
     // game objects
     private bullets: Phaser.GameObjects.Group
 
@@ -193,20 +194,18 @@ export class Player extends Phaser.GameObjects.Image {
                 paused: false,
             })
 
-            if (this.bullets.getLength() < 10) {
-                SoundManager.getInstance().playShootSound()
-                this.bullets.add(
-                    new Bullet({
-                        scene: this.scene,
-                        rotation: this.barrel.rotation,
-                        x: this.barrel.x,
-                        y: this.barrel.y,
-                        texture: 'bulletBlue',
-                    })
-                )
+            SoundManager.getInstance().playShootSound()
+            this.bullets.add(
+                new Bullet({
+                    scene: this.scene,
+                    rotation: this.barrel.rotation,
+                    x: this.barrel.x,
+                    y: this.barrel.y,
+                    texture: 'bulletBlue',
+                })
+            )
 
-                this.lastShoot = this.scene.time.now + 80
-            }
+            this.lastShoot = this.scene.time.now + 120
         }
     }
     private rotateTo(rotation: number, deltaTime: number) {

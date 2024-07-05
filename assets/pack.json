@@ -178,6 +178,15 @@
         "url": "./assets/hud/victory_symbol.png"
       },
       {
+        "type": "spritesheet",
+        "key": "explosion",
+        "url": "./assets/animation/explosion.png",
+        "frameConfig": {
+          "frameWidth": 512,
+          "frameHeight": 512
+        }
+      },
+      {
         "type": "atlas",
         "key": "flares",
         "textureURL": "./assets/hud/flares.png",
@@ -227,6 +236,11 @@
         "type": "audio",
         "key": "button_hover_sound",
         "url": "./assets/sounds/button_hover_sound.mp3"
+      },
+      {
+        "type": "audio",
+        "key": "explosion_sound",
+        "url": "./assets/sounds/explosion_sound.mp3"
       }
       
     ]

@@ -17,6 +17,8 @@ export class Enemy extends Phaser.GameObjects.Image {
     private barrel: Phaser.GameObjects.Image
     private lifeBar: Phaser.GameObjects.Graphics
     private virtualLifeBar: Phaser.GameObjects.Graphics
+    private explosion: Phaser.GameObjects.Sprite
+    private bloom: Phaser.Tweens.Tween
 
     // game objects
     private bullets: Phaser.GameObjects.Group
@@ -56,6 +58,20 @@ export class Enemy extends Phaser.GameObjects.Image {
         this.redrawVirtualLifeBar()
         this.redrawLifebar()
 
+        this.explosion = this.scene.add.sprite(200, 200, 'explosion')
+        
+        this.bloom = this.scene.add.tween({
+            targets: [this, this.barrel],
+            duration: 30,
+            alpha: {start: 1, to: 0.5},
+            ease:'linear',
+            yoyo: true,
+            paused: true,
+            onComplete: () => {
+                this.bloom.restart()
+                this.bloom.pause()
+            }
+        })
         // game objects
         this.bullets = this.scene.add.group({
             /*classType: Bullet,*/
@@ -91,6 +107,8 @@ export class Enemy extends Phaser.GameObjects.Image {
             this.lifeBar.y = this.y
             this.virtualLifeBar.x = this.x
             this.virtualLifeBar.y = this.y
+            this.explosion.x = this.x
+            this.explosion.y = this.y
             this.handleShooting()
         } else {
             this.destroy()
@@ -122,20 +140,18 @@ export class Enemy extends Phaser.GameObjects.Image {
     }
     private handleShooting(): void {
         if (this.scene.time.now > this.lastShoot) {
-            if (this.bullets.getLength() < 10) {
-                SoundManager.getInstance().playEnemyShootSound()
-                this.bullets.add(
-                    new Bullet({
-                        scene: this.scene,
-                        rotation: this.barrel.rotation,
-                        x: this.barrel.x,
-                        y: this.barrel.y,
-                        texture: 'bulletRed',
-                    })
-                )
+            SoundManager.getInstance().playEnemyShootSound()
+            this.bullets.add(
+                new Bullet({
+                    scene: this.scene,
+                    rotation: this.barrel.rotation,
+                    x: this.barrel.x,
+                    y: this.barrel.y,
+                    texture: 'bulletRed',
+                })
+            )
 
-                this.lastShoot = this.scene.time.now + 400
-            }
+            this.lastShoot = this.scene.time.now + 400
         }
     }
 
@@ -148,12 +164,26 @@ export class Enemy extends Phaser.GameObjects.Image {
         this.lifeBar.setDepth(1)
     }
 
+    public renderBloom() {
+        
+        if (!this.bloom.isPlaying()) {
+            
+            this.bloom.restart()
+            this.bloom.play()
+        }
+    }
     public updateHealth(): void {
         if (this.health > 0) {
+            
             this.health -= 0.05
             this.lastBeingShot = this.scene.time.now + 1000
             this.redrawLifebar()
         } else {
+            this.explosion.play('explodeAnimation')
+            SoundManager.getInstance().playExplosionSound()
+            this.explosion.on(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+                this.explosion.destroy()
+            })
             DataManager.getInstance().addStreak()
             this.virtualHealth = 0
             this.health = 0

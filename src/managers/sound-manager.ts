@@ -13,6 +13,7 @@ export class SoundManager {
     private buttonHoverSound: Phaser.Sound.HTML5AudioSound
     private wallHitSound: Phaser.Sound.HTML5AudioSound
     private enemyHitSound: Phaser.Sound.HTML5AudioSound
+    private explosionSound: Phaser.Sound.HTML5AudioSound
     private constructor() {}
     public static getInstance(): SoundManager {
         if (!SoundManager.instance) {
@@ -27,6 +28,7 @@ export class SoundManager {
         this.enemyShootSound = scene.sound.add('enemy_shoot_sound') as Phaser.Sound.HTML5AudioSound
         this.wallHitSound = scene.sound.add('wall_hit_sound') as Phaser.Sound.HTML5AudioSound
         this.enemyHitSound = scene.sound.add('enemy_hit_sound') as Phaser.Sound.HTML5AudioSound
+        this.explosionSound = scene.sound.add('explosion_sound') as Phaser.Sound.HTML5AudioSound
     }
     public initMenuScene(scene: Scene): void {
         if (this.menuMusic === undefined)
@@ -76,6 +78,7 @@ export class SoundManager {
         this.enemyShootSound.setVolume(soundVolume)
         this.wallHitSound.setVolume(soundVolume)
         this.enemyHitSound.setVolume(soundVolume)
+        this.explosionSound.setVolume(soundVolume * 2)
     }
     public playWallHitSound() {
         this.wallHitSound.play({
@@ -108,6 +111,9 @@ export class SoundManager {
     }
     public playShootSound(): void {
         this.shootSound.play()
+    }
+    public playExplosionSound(): void {
+        this.explosionSound.play()
     }
     public playEnemyShootSound(): void {
         // this.enemyShootSound.play()
